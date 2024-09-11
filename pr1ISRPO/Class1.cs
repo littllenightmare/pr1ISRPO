@@ -8,12 +8,12 @@ namespace pr1ISRPO
 {
     internal class Class1
     {
-        public double[] func(double[,] matr)
+        public static double[] func(double[,] matr)
         {
             int str = matr.GetLength(0);
             int stolb = matr.GetLength(1);
             double pr = 1, sum=0, min=10000, max=-10000;
-            double[]b = new double[str*4];
+            double[]b = new double[str*2+stolb*2];
 
 
             for (int i = 0; i < str; i++)
@@ -23,6 +23,7 @@ namespace pr1ISRPO
                     pr=pr*matr[i,j];
                 }
                 b[i] = pr;
+                pr = 1;
             }
 
 
@@ -30,9 +31,10 @@ namespace pr1ISRPO
             {
                 for (int j = 0; j < str; j++)
                 {
-                    sum = sum+matr[i,j];
+                    sum = sum+matr[j,i];
                 }
                 b[str+i] = sum/str;
+                sum = 0;
             }
 
 
@@ -40,10 +42,15 @@ namespace pr1ISRPO
             {
                 for (int j = 0; j < str; j++)
                 {
-                    if (matr[i, j] < 0)
-                    {
-                        b[str+str + i] = matr[i,j];
+                    if (matr[j, i] < 0)
+                    { 
+                        b[str+stolb + i] = matr[j,i];
+                        break;
                     }
+                }
+                if (b[str + stolb + i] == 0)
+                {
+                    b[str + stolb + i] = 0;
                 }
             }
 
@@ -61,9 +68,10 @@ namespace pr1ISRPO
                         max=matr[i, j];
                     }
                 }
-                b[str+str+str + i] = max - min;
+                if(min<0) Math.Abs(min);
+                b[str+stolb+stolb+ i] = max - min;
+                max = -10000; min = 10000;
             }
-
             return b;
         }
     }
